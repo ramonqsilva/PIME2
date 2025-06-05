@@ -2,9 +2,9 @@
 .header {
   background-color: #4682B4;
   color: white;
-  padding: 20px;
+  /* padding: 5px; */
   text-align: center;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
 }
 .header img {
   width: 50px;
@@ -18,12 +18,13 @@
   justify-content: space-between;
 }
 .topo-text{
-  margin-left: 10px;
+  margin-left: 30px;
 }
 .topo img {
-  width: 120px; /* Ajusta a largura conforme necessário */
+  width: 100px; /* Ajusta a largura conforme necessário */
   height: auto; /* Mantém a proporção da altura automaticamente */
   max-width: 100%; /* Garante que a imagem não extrapole o contêiner */
+  margin-right: 20px;
 }
 /* 2-1 */
 .conteudo {
@@ -31,19 +32,20 @@
   text-align: center; /*Alinhado ao centro*/
   background-position: center;
 }
-.paciente-info {
+.paciente-fotoInfo {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
 }
-.paciente-info img {
+.paciente-fotoInfo img {
   width: 100px;
-  height: max-width;
+  height: 100px;
   border-radius: 50%;
 }
 .paciente-detalhes {
   text-align: left;
+  margin-left: 20px;
 }
 .paciente-detalhes h2 {
   margin: 0;

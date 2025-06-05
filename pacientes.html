@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pacientes</title>
+  <link rel="stylesheet" href="css/pacientes.css">
+</head>
+<body>
+<!-- 1 -->
+<div class="conteiner">
+  <div class="header">
+    <a href="index.html" class="retornar_botao"><img src="img/seta_icon.png" alt="Voltar para Página Inicial"></a>
+    <h1>Pacientes</h1>
+    <a href="pacientes_cadastro.html" class="add_paciente_botao"><img src="img/adicionar_icon.png" alt="Adicionar paciente"></a>
+  </div>
+  <div class="barra_busca">
+    <input type="text" placeholder="Buscar pacientes...">
+    <button>🔍</button>
+  </div>
+  <div class="patient-list" id="patient-list">
+    <!-- Lista de pacientes carregada dinamicamente -->
+  </div>
+  <div class="botoes_de_acao">
+    <a href="index.html"><img src="img/confirmar_botao.png" alt="Confirmar Paciente Selecionado"></a>
+    <a href="#" id="clearPatientsButton"><img src="img/lixeira_botao.png" alt="Excluir Cadastro"></a>
+  </div>
+</div>
+    <script src="js/pacientes.js"></script>
+</body>
+</html>

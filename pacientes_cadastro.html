@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Paciente</title>
+  <link rel="stylesheet" href="css/pacientes_cadastro.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <a href="pacientes.html" class="retornar_botao"><img src="img/seta_icon.png" alt="Retornar a Seleção de Pacientes"></a>
+    <h1>Cadastro de Paciente</h1>
+  </div>
+  <form id="patientForm">
+    <div class="profile">
+      <label for="patientPhoto">Foto do Paciente (opcional)</label>
+      <a><img src="img/usuario_padrao.png" height="48" width="48"/></a>
+      <input type="file" id="patientPhoto" name="patientPhoto" accept="image/*">
+    </div>
+    <div class="info">
+      <div class="info-box">
+        <label for="patientName">Nome Completo</label>
+        <input type="text" id="patientName" name="patientName" required>
+      </div>
+      <div class="info-box">
+        <label for="patientDOB">Data de Nascimento</label>
+        <input type="date" id="patientDOB" name="patientDOB" required>
+      </div>
+      <div class="info-box">
+        <label for="patientCPF">CPF</label>
+        <input type="text" id="patientCPF" name="patientCPF" required>
+      </div>
+      <div class="info-box">
+        <label for="patientRG">RG</label>
+        <input type="text" id="patientRG" name="patientRG" required>
+      </div>
+      <div class="info-box">
+        <label for="patientResponsible">Nome do Responsável</label>
+        <input type="text" id="patientResponsible" name="patientResponsible" required>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="submit" class="action-button save">Salvar</button>
+      <button type="button" id="clearButton" class="action-button clear">Limpar</button>
+    </div>
+  </form>
+</div>
+<script src="js/pacientes_cadastro.js"></script>
+</body>
+</html>

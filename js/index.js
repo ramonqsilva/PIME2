@@ -4,39 +4,66 @@ document.addEventListener('DOMContentLoaded', function() {
     const patientAge = document.getElementById('patientAge');
     const patientDOB = document.getElementById('patientDOB');
 
-    // Verifica se há um paciente selecionado na URL
+    // Obtém o ID do paciente da URL ou do localStorage
     const urlParams = new URLSearchParams(window.location.search);
     let patientId = urlParams.get('id') || localStorage.getItem('selectedPatientId');
 
     if (!patientId) {
-        // Limpa as informações do paciente
-        patientPhoto.src = 'img/account-group-outline.PNG';
-        patientName.textContent = '';
+        // Não há paciente selecionado, limpa as informações
+        patientPhoto.src = 'img/usuario_padrao.png';
+        patientName.textContent = 'Selecione um Paciente';
         patientAge.textContent = '';
         patientDOB.textContent = '';
     } else {
-        const patients = JSON.parse(localStorage.getItem('patients')) || [];
-        const patient = patients.find(p => p.id === patientId);
+        try {
+            const patients = JSON.parse(localStorage.getItem('patients')) || [];
+            const patient = patients.find(p => String(p.id) === String(patientId));
 
-        if (patient) {
-            patientPhoto.src = patient.photo || 'img/default-placeholder.png';
-            patientName.textContent = patient.name;
-            const age = new Date().getFullYear() - new Date(patient.dob).getFullYear();
-            patientAge.textContent = `${age} Anos`;
-            patientDOB.textContent = `Nascimento: ${new Date(patient.dob).toLocaleDateString('pt-BR')}`;
+            if (patient) {
+                patientPhoto.src = patient.photo || 'img/default-placeholder.png';
+                patientName.textContent = patient.name || 'Nome não disponível';
 
-            // Armazena o ID do paciente no localStorage
-            localStorage.setItem('selectedPatientId', patientId);
+                const birthDate = new Date(patient.dob);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                // Ajusta a idade caso o aniversário ainda não tenha ocorrido este ano
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                patientAge.textContent = `${age} anos`;
+                patientDOB.textContent = `Nascimento: ${birthDate.toLocaleDateString('pt-BR')}`;
+
+                // Armazena o ID do paciente no localStorage
+                localStorage.setItem('selectedPatientId', patientId);
+            } else {
+                // Paciente não encontrado
+                patientPhoto.src = 'img/account-group-outline.PNG';
+                patientName.textContent = 'Paciente não encontrado';
+                patientAge.textContent = '-';
+                patientDOB.textContent = '-';
+            }
+        } catch (error) {
+            console.error('Erro ao carregar os dados do paciente:', error);
+            patientName.textContent = 'Erro ao carregar paciente';
+            patientAge.textContent = '-';
+            patientDOB.textContent = '-';
         }
     }
 
-    document.getElementById('data-icon').addEventListener('click', function(event) {
-        event.preventDefault();
-        const patientId = localStorage.getItem('selectedPatientId');
-        if (patientId) {
-            window.location.href = `dados.html?id=${patientId}`;
-        } else {
-            alert('Selecione um paciente primeiro!');
-        }
-    });
+    // Evento de clique no ícone para redirecionar para dados.html
+    const dataIcon = document.getElementById('data-icon');
+    if (dataIcon) {
+        dataIcon.addEventListener('click', function(event) {
+            event.preventDefault();
+            const selectedId = localStorage.getItem('selectedPatientId');
+            if (selectedId) {
+                window.location.href = `dados.html?id=${selectedId}`;
+            } else {
+                alert('Selecione um paciente primeiro!');
+            }
+        });
+    }
 });

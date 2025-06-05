@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dados</title>
+  <link rel="stylesheet" href="css/dados.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <a href="index.html" class="retornar_botao"><img src="img/seta_icon.png" alt="Retornar a Página Inicial"></a>
+    <h1>Dados</h1>
+  </div>
+  <div class="profile">
+    <img id="patientPhoto" src="img/user.png" alt="Foto do Paciente" class="profile-pic">
+  </div>
+  <div class="info">
+    <div class="info-box">
+      <label>Nome Completo:</label>
+      <p id="patientName" class="editable"></p>
+      <input type="text" id="editPatientName" class="edit-input" style="display: none;">
+    </div>
+    <div class="info-box">
+      <label>Data de Nascimento:</label>
+      <p id="patientDOB" class="editable"></p>
+      <input type="date" id="editPatientDOB" class="edit-input" style="display: none;">
+    </div>
+    <div class="info-box">
+      <label>CPF:</label>
+      <p id="patientCPF" class="editable"></p>
+      <input type="text" id="editPatientCPF" class="edit-input" style="display: none;">
+    </div>
+    <div class="info-box">
+      <label>RG:</label>
+      <p id="patientRG" class="editable"></p>
+      <input type="text" id="editPatientRG" class="edit-input" style="display: none;">
+    </div>
+    <div class="info-box">
+      <label>Nome do Responsável:</label>
+      <p id="patientResponsible" class="editable"></p>
+      <input type="text" id="editPatientResponsible" class="edit-input" style="display: none;">
+    </div>
+  </div>
+  <div class="actions">
+    <img id="editButton" src="img/editar_botao.png" alt="Editar" class="edit-button" style="cursor: pointer;">
+    <img id="confirmButton" src="img/confirmar_botao.png" alt="Confirmar" class="edit-button" style="display: none; cursor: pointer;">
+    <img id="cancelButton" src="img/lixeira_botao.png" alt="Cancelar" class="edit-button" style="display: none; cursor: pointer;">
+  </div>
+</div>
+<script src="js/dados.js"></script>
+</body>
+</html>
