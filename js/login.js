@@ -1,36 +1,38 @@
-// Evento de submissão do formulário
-document.getElementById('loginForm').addEventListener('submit', async function(event) {
-  event.preventDefault();  // Impede o comportamento padrão do form
+const BACKEND_URL = 'https://pime2.up.railway.app';
 
-  // Pegando os valores dos campos
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+document.getElementById('loginForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
 
-  // Enviar os dados para o backend (Node.js com Express)
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    alert('Preencha usuário e senha');
+    return;
+  }
+
   try {
-    const response = await fetch('http://localhost:3000/login', {  // Altere a URL conforme o seu backend
+    const response = await fetch(`${BACKEND_URL}/login`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
     });
 
     const result = await response.json();
 
-    // Verifica se o login foi bem-sucedido
     if (response.ok) {
-      // Redireciona dependendo do tipo de usuário (admin ou cliente)
       if (result.role === 'admin') {
-        window.location.href = 'index.html';  // Para admins
+        window.location.href = 'index.html';
       } else if (result.role === 'cliente') {
-        window.location.href = 'restricted.html';  // Para clientes
+        window.location.href = 'restricted.html';
+      } else {
+        alert('Tipo de usuário desconhecido');
       }
     } else {
-      alert(result.message || 'Erro ao tentar fazer login');
+      alert(result.message || 'Erro ao fazer login');
     }
   } catch (error) {
-    console.error('Erro na requisição', error);
+    console.error('Erro na requisição:', error);
     alert('Erro ao conectar ao servidor');
   }
 });

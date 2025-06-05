@@ -1,51 +1,56 @@
-require('dotenv').config();  // Para carregar as variáveis de ambiente do arquivo .env
+require('dotenv').config();
 const express = require('express');
-const { Client } = require('pg');  // Para conectar ao PostgreSQL
-const app = express();
-const port = process.env.PORT || 3000;  // Porta do servidor
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const { Client } = require('pg');
 
-// Middleware para permitir receber JSON no corpo da requisição
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Permitir requisições apenas do seu frontend no GitHub Pages
+app.use(cors({
+    origin: 'https://ramonqsilva.github.io'
+}));
+
 app.use(express.json());
 
-// Configuração do cliente PostgreSQL
 const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false  // Necessário para a conexão com o Railway
-    }
+    ssl: { rejectUnauthorized: false }
 });
 
-// Conectar ao banco de dados PostgreSQL
 client.connect()
-    .then(() => console.log('Conectado ao banco de dados PostgreSQL'))
-    .catch((err) => console.error('Erro ao conectar ao banco de dados:', err));
+    .then(() => console.log('Conectado ao PostgreSQL'))
+    .catch(err => console.error('Erro ao conectar no PostgreSQL:', err));
 
-// Rota de login
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    // Verifique se os dados de login são válidos
-    const query = 'SELECT * FROM usuarios WHERE username = $1 AND password = $2';  // Substitua "usuarios" pela sua tabela
     try {
-        const result = await client.query(query, [username, password]);
+        const query = 'SELECT * FROM usuarios WHERE username = $1';
+        const result = await client.query(query, [username]);
 
-        if (result.rows.length > 0) {
-            // Se encontrar o usuário, retorne o tipo de usuário (role)
-            const user = result.rows[0];
-            res.status(200).json({
-                role: user.role,  // Ou qualquer outro campo que identifique o tipo de usuário
-                message: 'Login bem-sucedido!'
-            });
-        } else {
-            res.status(401).json({ message: 'Usuário ou senha inválidos!' });
+        if (result.rows.length === 0) {
+            return res.status(401).json({ message: 'Usuário ou senha inválidos!' });
         }
+
+        const user = result.rows[0];
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if (!validPassword) {
+            return res.status(401).json({ message: 'Usuário ou senha inválidos!' });
+        }
+
+        return res.status(200).json({
+            role: user.role,
+            message: 'Login bem-sucedido!'
+        });
     } catch (err) {
-        console.error('Erro ao verificar login:', err);
+        console.error('Erro ao processar login:', err);
         res.status(500).json({ message: 'Erro no servidor, tente novamente mais tarde.' });
     }
 });
 
-// Iniciar o servidor
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
